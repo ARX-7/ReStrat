@@ -24,3 +24,4 @@ ReStrat is an addon which will see primary use in a progress intensive environme
 - Download it as a zip, right hand column.
 - Extract it, it should be in a folder called ReStrat-master. Rename it to ReStrat
 - Move to addon folder.
+- Make sure it isn't nested in multiple ReStrat-master folders.

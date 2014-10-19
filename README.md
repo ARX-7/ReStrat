@@ -18,3 +18,9 @@ ReStrat is an addon which will see primary use in a progress intensive environme
 - Provide tools which allow in detail analysis of encounters.
     - This includes the ability to analyze encounter units,  the actions belonging to them, and the auras gained by all      units.
 - Minimal aesthetic which makes efficient use of screen space.
+- 
+
+##How to setup
+- Download it as a zip, right hand column.
+- Extract it, it should be in a folder called ReStrat-master. Rename it to ReStrat
+- Move to addon folder.

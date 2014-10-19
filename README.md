@@ -1,9 +1,14 @@
 #ReStrat
-##Reglitch [Codex - Hazak]
+#Orginial Author: Reglitch [Codex - Hazak]
+#*Errc [Hindsight - Warhound]
+
+I, Errc, have continued development on this because it is the most well developed raid addon and is easy to iterate on and add new encounters.
 
 ###What is ReStrat?
 
 ReStrat is a boss mod for Wildstar, currently in early development. The goal of ReStrat is to have a framework which allows rapid development of strategical aids, such as timers, ability alerts, and so on for progress raiding. 
+
+/rs help - Get a list of commands
 
 ###Goals
 

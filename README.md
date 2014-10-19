@@ -1,8 +1,8 @@
 #ReStrat
 #Orginial Author: Reglitch [Codex - Hazak]
-#*Errc [Hindsight - Warhound]
+#Errc [Hindsight - Warhound]
 
-I, Errc, have continued development on this because it is the most well developed raid addon and is easy to iterate on and add new encounters.
+I have continued development on this because it is the most well developed raid addon and is easy to iterate on and add new encounters.
 
 ###What is ReStrat?
 

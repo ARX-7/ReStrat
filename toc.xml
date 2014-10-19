@@ -33,4 +33,17 @@
     <!--Datascape -->
 		<!-- System Daemons -->
 		<Script Name="profiles\Datascape\daemons.lua"/>
+		<!-- Mini Bosses -->
+		<Script Name="profiles\Datascape\minis.lua"/>
+		<!-- Gloomclaw -->
+		<Script Name="profiles\Datascape\gloomclaw.lua"/>
+		<!-- Lattice -->
+		<Script Name="profiles\Datascape\lattice.lua"/>
+		<!-- Maelstorm Authority -->
+		<Script Name="profiles\Datascape\maelstorm.lua"/>
+		<!-- Elemental Pairs -->
+		<Script Name="profiles\Datascape\pairs.lua"/>
+		<!-- Avatus -->
+		<Script Name="profiles\Datascape\avatus.lua"/>
+
 </Addon>

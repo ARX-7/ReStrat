@@ -10,7 +10,7 @@
 --Modularization is heavy here, we do not reiterate on the same function to continually check
 --We add the spell and unit into the tWatchedCasts table then check when the cast event is fired by LCLF
 function ReStrat:createCastAlert(strUnit, strCast, duration_i, strIcon_i, color_i, fCallback_i)
-	if ReStrat.tEncounters[strUnit] then		
+	if ReStrat.tEncounters[strUnit] then
 		if ReStrat.tEncounters[strUnit].tModules[strCast].bEnabled then
 			ReStrat.tWatchedCasts[#ReStrat.tWatchedCasts+1] = {
 				name = strUnit,
@@ -46,19 +46,19 @@ function ReStrat:isCasting(strUnit, strCast)
 				if ReStrat.tUnits[i].unit.IsCasting() then return true end
 			end
 		end
-		
+
 		return false
 	end
-	
+
 	--We need to check for a specified cast
 	for i,v in ipairs(ReStrat.tUnits) do
 		if ReStrat.tUnits[i].name == strUnit then
 			if ReStrat.tUnits[i].unit.GetCastName() == strCast then return true end
 		end
 	end
-	
+
 	return false
-	
+
 end
 
 --Adds the requested spell into the checklist
@@ -87,10 +87,10 @@ function ReStrat:createAuraAlert(strUnit, strAuraName, duration_i, icon_i, fCall
 				strColor = color_i
 			}
 		}
-		
+
 		return
 	end
-	
+
 	if ReStrat.tEncounters[strUnit].tModules[strAuraName].bEnabled then
 		ReStrat.tWatchedAuras[#ReStrat.tWatchedAuras+1] = {
 			name = strUnit,
@@ -102,23 +102,23 @@ function ReStrat:createAuraAlert(strUnit, strAuraName, duration_i, icon_i, fCall
 				strColor = color_i
 			}
 		}
-		
+
 		return
-	end	
-	
+	end
+
 end
 
 --Not very accurate, better than nothing
 function ReStrat:findAuraDuration(strBuffName, unit)
 	local tBuffs = unit:GetBuffs();
-	
+
 	--Benficial
 	for i=1, #tBuffs["arBeneficial"] do
 		if tBuffs["arBeneficial"][i].splEffect:GetName() == strBuffName then
 			return tBuffs["arBeneficial"][i].fTimeRemaining
 		end
 	end
-	
+
 	--Harmful
 	for i=1, #tBuffs["arHarmful"] do
 		if tBuffs["arHarmful"][i].splEffect:GetName() == strBuffName then
@@ -140,7 +140,7 @@ end
 
 function ReStrat:OnDatachron(strText_i, fCallback_i)
 	if not self.tDatachron then self.tDatachron = {} end
-	
+
 	self.tDatachron[#self.tDatachron+1] = { strText = strText_i, fCallback = fCallback_i };
 
 end

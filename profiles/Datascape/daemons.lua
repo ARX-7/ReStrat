@@ -7,23 +7,33 @@
 -----------------------------------------------------------------------------
 
 --Binary Daemon
-local function binaryInit()
+local function binaryInit(unit)
 	local binary = "Binary System Daemon";
 
 	-----------------------------
 	--Initial Timers
 	-----------------------------
+	-- Add a new add wave with probes tossed in.
 	ReStrat.tEncounterVariables.addwaves = function()
-		ReStrat:createAlert("Next Add Wave", 50, nil, ReStrat.color.green, ReStrat.tEncounterVariables.addwaves)
+		ReStrat:createAlert("Probe 1 Spawn", 20, nil, ReStrat.color.yellow, function()
+			ReStrat:createAlert("Probe 2 Spawn", 10, nil, ReStrat.color.yellow, function()
+				ReStrat:createAlert("Probe 3 Spawn", 10, nil, ReStrat.color.yellow, nil)
+			end)
+		end)
+		ReStrat:createAlert("Next Add Wave", 50, nil, ReStrat.color.orange, ReStrat.tEncounterVariables.addwaves)
 	end
 
-	ReStrat.tEncounterVariables.disconnect = function()
-		ReStrat:createAlert("Next Disconnect", 60, nil, ReStrat.color.purple, ReStrat.tEncounterVariables.disconnect)
-	end
+	-- Disconnect
+	local disconnect = function() ReStrat:createAlert("Next Disconnect", 60, nil, ReStrat.color.purple, nil) end;
 
-	ReStrat:createAlert("Portals Opening", 4, nil, ReStrat.color.orange, nil)
-	ReStrat:createAlert("Next Add Wave", 15, nil, ReStrat.color.green, ReStrat.tEncounterVariables.addwaves)
-	ReStrat:createAlert("Next Disconnect", 45, nil, ReStrat.color.purple, ReStrat.tEncounterVariables.disconnect)
+	ReStrat:createAlert("Next Add Wave", 15, nil, ReStrat.color.orange, ReStrat.tEncounterVariables.addwaves)
+	ReStrat:createAlert("Next Disconnect", 45, nil, ReStrat.color.purple, nil)
+
+	-----------------------------
+	--Health Bars
+	-----------------------------
+
+	ReStrat:createHealth("North Daemon", unit, 1, nil, nil)
 
 	-----------------------------
 	--Datachron Hooks
@@ -37,7 +47,7 @@ local function binaryInit()
 
 
 		ReStrat:createAlert("Next Add Wave", 97, nil, ReStrat.color.green, ReStrat.tEncounterVariables.addwaves)
-		ReStrat:createAlert("Next Disconnect", 87, nil, ReStrat.color.green, ReStrat.tEncounterVariables.disconnect)
+		ReStrat:createAlert("Next Disconnect", 87, nil, ReStrat.color.black, nil)
 	end
 
 	ReStrat:OnDatachron("COMMENCING ENHANCEMENT SEQUENCE.", phaseTwo);
@@ -47,28 +57,34 @@ local function binaryInit()
 	--Binary Casts
 	-----------------------------
 	--Next purge
-	local nextpurge = function() ReStrat:createAlert("[BIN] Purge Cooldown", 24, nil, ReStrat.color.purple, nil) end
+	local nextpurge = function() ReStrat:createAlert("[SOUTH] Purge Next", 16, nil, ReStrat.color.blue, nil) end
 
-	--Next power surge
-	local nextsurge = function() ReStrat:createAlert("[BIN] Power Surge", 13, nil, ReStrat.color.purple, nil) end
-
-	ReStrat:createCastAlert(binary, "Power Surge", nil, "Icon_SkillEsper_Awaken_Alt", ReStrat.color.red, nextsurge);
 	ReStrat:createCastAlert(binary, "Purge", nil, "Icon_SkillMisc_UI_srcr_frecho", ReStrat.color.red, nextpurge);
-
+	ReStrat:createCastAlert(binary, "Disconnect", nil, nil, ReStrat.color.purple, disconnect);
 end
 
 --Null Daemon
 local function nullInit()
 	local null = "Null System Daemon";
 
+	-----------------------------
+	--Health Bars
+	-----------------------------
+
+	ReStrat:createHealth("South Daemon", unit, 1, nil, nil)
+
+	-----------------------------
+	--Null Casts
+	-----------------------------
+
 	--Next purge
-	local nextpurge = function() ReStrat:createAlert("[NULL] Purge Cooldown", 24, nil, ReStrat.color.purple, nil) end
+	local nextpurge = function() ReStrat:createAlert("[NORTH] Purge Next", 16, nil, ReStrat.color.blue, nil) end
 
-	--Next power surge
-	local nextsurge = function() ReStrat:createAlert("[NULL] Power Surge", 13, nil, ReStrat.color.purple, nil) end
+	-- Disconnect
+	local disconnect = function() ReStrat:createAlert("Next Disconnect", 60, nil, ReStrat.color.purple, nil) end;
 
-	ReStrat:createCastAlert(null, "Power Surge", nil, "Icon_SkillEsper_Awaken_Alt", ReStrat.color.red, nextsurge);
 	ReStrat:createCastAlert(null, "Purge", nil, "Icon_SkillMisc_UI_srcr_frecho", ReStrat.color.red, nextpurge);
+	ReStrat:createCastAlert(null, "Disconnect", nil, nil, ReStrat.color.black, disconnect);
 end
 
 --Defragmentation Unit
@@ -91,10 +107,6 @@ ReStrat.tEncounters["Binary System Daemon"] = {
 	fInitFunction = binaryInit,
 	strCategory  = "Datascape",
 	tModules = {
-		["Power Surge"] = {
-			strLabel = "Power Surge",
-			bEnabled = true,
-		},
 		["Purge"] = {
 			strLabel = "Purge",
 			bEnabled = true,
@@ -106,10 +118,6 @@ ReStrat.tEncounters["Null System Daemon"] = {
 	fInitFunction = nullInit,
 	strCategory  = "Datascape",
 	tModules = {
-		["Power Surge"] = {
-			strLabel = "Power Surge",
-			bEnabled = true,
-		},
 		["Purge"] = {
 			strLabel = "Purge",
 			bEnabled = true,

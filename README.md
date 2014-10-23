@@ -1,8 +1,8 @@
 #ReStrat
 #Orginial Author: Reglitch [Codex - Hazak]
-#*Errc [Hindsight - Warhound]
+#Errc [Hindsight - Warhound]
 
-I, Errc, have continued development on this because it is the most well developed raid addon and is easy to iterate on and add new encounters.
+I have continued development on this because it is the most well developed raid addon and is easy to iterate on and add new encounters.
 
 ###What is ReStrat?
 
@@ -18,3 +18,10 @@ ReStrat is an addon which will see primary use in a progress intensive environme
 - Provide tools which allow in detail analysis of encounters.
     - This includes the ability to analyze encounter units,  the actions belonging to them, and the auras gained by all      units.
 - Minimal aesthetic which makes efficient use of screen space.
+- 
+
+##How to setup
+- Download it as a zip, right hand column.
+- Extract it, it should be in a folder called ReStrat-master. Rename it to ReStrat
+- Move to addon folder.
+- Make sure it isn't nested in multiple ReStrat-master folders.

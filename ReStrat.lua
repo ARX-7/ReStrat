@@ -24,6 +24,7 @@ local COMMANDS = "--ReStrat Commands--\n\
 /break NUM - Length of a break in seconds.\
 /break end - Ends break timer early\
 /buff all|flask|pot|food - Print name of mesmebers not there or without a buff.\
+/speed - Remind guildies to get a speed flask! \
 "
 
 -----------------------------------------------------------------------------------------------
@@ -84,6 +85,7 @@ function ReStrat:OnDocLoaded()
 		Apollo.RegisterSlashCommand("pull", "OnPull", self)
 		Apollo.RegisterSlashCommand("break", "OnBreak", self)
 		Apollo.RegisterSlashCommand("buff", "OnBuff", self)
+		Apollo.RegisterSlashCommand("speed", "OnSpeed", self)
 
 		Apollo.RegisterEventHandler("UnitCreated", "OnUnitCreated", self)
 		Apollo.RegisterEventHandler("UnitDestroyed", "OnUnitDestroyed", self)
@@ -141,7 +143,7 @@ function ReStrat:OnDocLoaded()
 		self.pullTimer:Stop();
 
 		--Drives getting buffs
-		self.buffTimer = ApolloTimer.Create(.1, true, "OnBuffTimer", self);
+		self.buffTimer = ApolloTimer.Create(.05, true, "OnBuffTimer", self);
 		self.buffTimer:Stop();
 
 		--Variables, tables, etc.
@@ -212,9 +214,12 @@ function ReStrat:OnSave(eLevel)
   return tSavedData
 end
 
+-- TODO
 --Restore data on session
 function ReStrat:OnRestore(eType, savedData)
 		local encounterCache = nil;
+
+		if true then return end
 
 		if self.tEncounters then
 			encounterCache = self.tEncounters;
@@ -1234,6 +1239,25 @@ function ReStrat:OnChatMessage(channelCurrent, tMessage)
 
 	local command = tMessage.arMessageSegments[1].strText;
 
+	if (command=="invite" or command=="tugga") and GameLib.GetPlayerUnit():GetName()~=tMessage.strSender then
+		if GroupLib.GetMemberCount() == 40 then
+			ChatSystemLib.Command('/w ' .. tMessage.strSender .. " Raid is full.")
+			return
+		elseif GroupLib.GetMemberCount() == 0 then
+			ChatSystemLib.Command('/invite ' .. tMessage.strSender)
+			ChatSystemLib.Command('/w ' .. tMessage.strSender .. " Welcome in!")
+			return
+		end
+		for i = 1, GroupLib.GetMemberCount() do
+			if GroupLib.GetGroupMember(i).strCharacterName == GameLib.GetPlayerUnit():GetName() and
+			GroupLib.GetGroupMember(i).bIsLeader or GroupLib.GetGroupMember(i).bRaidAssistant or GroupLib.GetGroupMember(i).bMainAssist then
+				ChatSystemLib.Command('/invite ' .. tMessage.strSender)
+				ChatSystemLib.Command('/w ' .. tMessage.strSender .. " Welcome in!")
+				return
+			end
+		end
+		ChatSystemLib.Command('/w ' .. tMessage.strSender .. " I can't invite. Please try again.")
+	end
 
 
 	--Get Datachron Messages
@@ -1304,6 +1328,12 @@ function ReStrat:OnPullTimer()
 	end
 end
 
+function ReStrat:OnSpeed()
+	for i=0,5 do
+		ChatSystemLib.Command("/g SPEED FLASKS!!!")
+	end
+end
+
 --On /pull
 function ReStrat:OnPull(cmd, arg)
 	local arg = tonumber(arg);
@@ -1357,13 +1387,27 @@ end
 
 local buffs = "";
 local curPartyMember = 1
-missing = {}
+local missing = {}
 --buffTimer
 -- On /buff
 function ReStrat:OnBuff(cmd,arg)
 	if not arg or arg == "" then Print("See /rs help for use") return end
 	curPartyMember = 1;
-	missing = {}
+	missing = {
+		['members'] = {
+			"Missing: ",
+		},
+		['flask'] = {
+			"No Flask: ",
+		},
+		['food'] = {
+			"No Food: ",
+		},
+		['pot']= {
+			"No Pot: ",
+		},
+
+	}
 
 	for i = 1, GroupLib.GetMemberCount() do
 		if GroupLib.GetGroupMember(i).strCharacterName == GameLib.GetPlayerUnit():GetName() then
@@ -1381,6 +1425,7 @@ function ReStrat:OnBuff(cmd,arg)
 end
 
 function ReStrat:OnBuffTimer()
+	-- If we have gone through all members, do printout and stop
 	if curPartyMember > GroupLib.GetMemberCount() then
 
 		for i,v in pairs(missing) do
@@ -1395,24 +1440,15 @@ function ReStrat:OnBuffTimer()
 		return
 	end
 
-
 	local curUnit =	GroupLib.GetUnitForGroupMember(curPartyMember)
 
 	if not curUnit then
-		if not missing['members'] then
-			missing['members'] = {}
-			table.insert(missing['members'],"Missing: ")
-		end
 		table.insert(missing['members'], GroupLib.GetGroupMember(curPartyMember).strCharacterName)
 	else
 		--Very costly call, this is why the check is on a timer
 		local tBuffs = curUnit:GetBuffs().arBeneficial
 		if not tBuffs then
-			if not missing['buffs'] then
-				missing['buffs'] = {}
-				table.insert(missing['buffs'],"No Buffs: ")
-			end
-			table.insert(missing['buffs'], curUnit:GetName())
+			Print("Error: No buffs on: ".. curUnit:GetName())
 		else
 			local hasFlask = false
 			local hasFood = false
@@ -1428,23 +1464,14 @@ function ReStrat:OnBuffTimer()
 					hasPot = true
 				end
 			end
+
 			if (buffs=="all" or buffs =="flask") and not hasFlask then
-				if not missing['flask'] then
-					missing['flask'] = {}
-					table.insert(missing['flask'],"No Flask: ")
-				end
 				table.insert(missing['flask'], curUnit:GetName())
-			elseif (buffs=="all" or buffs =="food") and not hasFood then
-				if not missing['food'] then
-					missing['food'] = {}
-					table.insert(missing['food'],"No Food: ")
-				end
+			end
+			if (buffs=="all" or buffs =="food") and not hasFood then
 				table.insert(missing['food'], curUnit:GetName())
-			elseif (buffs=="all" or buffs =="pot") and not hasPot then
-				if not missing['pot'] then
-					missing['pot'] = {}
-					table.insert(missing['pot'],"No Pot: ")
-				end
+			end
+			if (buffs=="all" or buffs =="pot") and not hasPot then
 				table.insert(missing['pot'], curUnit:GetName())
 			end
 		end

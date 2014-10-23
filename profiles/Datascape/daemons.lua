@@ -46,8 +46,8 @@ local function binaryInit(unit)
 		ReStrat.tAlerts = {};
 
 
-		ReStrat:createAlert("Next Add Wave", 97, nil, ReStrat.color.green, ReStrat.tEncounterVariables.addwaves)
-		ReStrat:createAlert("Next Disconnect", 87, nil, ReStrat.color.black, nil)
+		ReStrat:createAlert("Next Add Wave", 96, nil, ReStrat.color.orange, ReStrat.tEncounterVariables.addwaves)
+		ReStrat:createAlert("Next Disconnect", 87, nil, ReStrat.color.white, nil)
 	end
 
 	ReStrat:OnDatachron("COMMENCING ENHANCEMENT SEQUENCE.", phaseTwo);
@@ -64,7 +64,7 @@ local function binaryInit(unit)
 end
 
 --Null Daemon
-local function nullInit()
+local function nullInit(unit)
 	local null = "Null System Daemon";
 
 	-----------------------------
@@ -111,6 +111,10 @@ ReStrat.tEncounters["Binary System Daemon"] = {
 			strLabel = "Purge",
 			bEnabled = true,
 		},
+		["Disconnect"] = {
+			strLabel = "Disconnect",
+			bEnabled = true,
+		},
 	}
 }
 
@@ -120,6 +124,10 @@ ReStrat.tEncounters["Null System Daemon"] = {
 	tModules = {
 		["Purge"] = {
 			strLabel = "Purge",
+			bEnabled = true,
+		},
+		["Disconnect"] = {
+			strLabel = "Disconnect",
 			bEnabled = true,
 		},
 	}

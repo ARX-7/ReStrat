@@ -15,7 +15,7 @@ local function binaryInit(unit)
 	-----------------------------
 	-- Add a new add wave with probes tossed in.
 	ReStrat.tEncounterVariables.addwaves = function()
-		ReStrat:createAlert("Probe 1 Spawn", 20, nil, ReStrat.color.yellow, function()
+		ReStrat:createAlert("Probe 1 Spawn", 10, nil, ReStrat.color.yellow, function()
 			ReStrat:createAlert("Probe 2 Spawn", 10, nil, ReStrat.color.yellow, function()
 				ReStrat:createAlert("Probe 3 Spawn", 10, nil, ReStrat.color.yellow, nil)
 			end)
@@ -46,7 +46,7 @@ local function binaryInit(unit)
 		ReStrat.tAlerts = {};
 
 
-		ReStrat:createAlert("Next Add Wave", 96, nil, ReStrat.color.orange, ReStrat.tEncounterVariables.addwaves)
+		ReStrat:createAlert("Next Add Wave", 95, nil, ReStrat.color.orange, ReStrat.tEncounterVariables.addwaves)
 		ReStrat:createAlert("Next Disconnect", 87, nil, ReStrat.color.white, nil)
 	end
 

@@ -10,6 +10,10 @@ ReStrat is a boss mod for Wildstar, currently in early development. The goal of 
 
 /rs help - Get a list of commands
 
+###Notes
+- /rs to bring up the options, then can hit the wrench to bring up the window to move the frames. Click enable moving and then Ctrl+Drag the frames to appropriate places.
+- There are not many (any?) options availble really. Nothing to resize, turn off parts or modify anything except where the timers show up. I would eventually like to add these QoL features but it isn't a priority currently. If you want to add these please let me know and would love to add them to this branch.
+
 ###Goals
 
 ReStrat is an addon which will see primary use in a progress intensive environment, where information on encounters is sparse. As such the main goals of the addon are as follows:

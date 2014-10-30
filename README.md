@@ -1,6 +1,6 @@
 #ReStrat
-#Orginial Author: Reglitch [Codex - Hazak]
 #Errc [Hindsight - Warhound]
+Orginial Author: Reglitch [Codex - Hazak]
 
 I have continued development on this because it is the most well developed raid addon and is easy to iterate on and add new encounters.
 
@@ -24,4 +24,4 @@ ReStrat is an addon which will see primary use in a progress intensive environme
 - Download it as a zip, right hand column.
 - Extract it, it should be in a folder called ReStrat-master. Rename it to ReStrat
 - Move to addon folder.
-- Make sure it isn't nested in multiple ReStrat-master folders.
+- Make sure it isn't nested in multiple ReStrat-master folders and that it is a single ReStrat folder.

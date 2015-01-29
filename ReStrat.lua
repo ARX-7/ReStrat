@@ -91,7 +91,6 @@ function ReStrat:OnDocLoaded()
 		Apollo.RegisterEventHandler("UnitDestroyed", "OnUnitDestroyed", self)
 		Apollo.RegisterEventHandler("UnitEnteredCombat", "OnEnteredCombat", self)
 		Apollo.RegisterEventHandler("WindowManagementReady", "OnWindowManagementReady", self)
-		Apollo.RegisterEventHandler("ChatMessage", "OnChatMessage", self)
 		Apollo.RegisterEventHandler("PublicEventObjectiveUpdate", "OnPublicEvent", self)
 
 		--[[
@@ -1232,33 +1231,6 @@ function ReStrat:onCreateTestAlarms(wndHandler, wndControl)
 
 	self:createHealth(selfUnit:GetName(), selfUnit, nil, self.color.white, nil)
 end
-
---OnChatMessages
-function ReStrat:OnChatMessage(channelCurrent, tMessage)
-	if not tMessage then return end --Shouldn't happen but hey this game
-
-	local command = tMessage.arMessageSegments[1].strText;
-
-	if (command=="invite" or command=="tugga") and GameLib.GetPlayerUnit():GetName()~=tMessage.strSender then
-		if GroupLib.GetMemberCount() == 40 then
-			ChatSystemLib.Command('/w ' .. tMessage.strSender .. " Raid is full.")
-			return
-		elseif GroupLib.GetMemberCount() == 0 then
-			ChatSystemLib.Command('/invite ' .. tMessage.strSender)
-			ChatSystemLib.Command('/w ' .. tMessage.strSender .. " Welcome in!")
-			return
-		end
-		for i = 1, GroupLib.GetMemberCount() do
-			if GroupLib.GetGroupMember(i).strCharacterName == GameLib.GetPlayerUnit():GetName() and
-			GroupLib.GetGroupMember(i).bIsLeader or GroupLib.GetGroupMember(i).bRaidAssistant or GroupLib.GetGroupMember(i).bMainAssist then
-				ChatSystemLib.Command('/invite ' .. tMessage.strSender)
-				ChatSystemLib.Command('/w ' .. tMessage.strSender .. " Welcome in!")
-				return
-			end
-		end
-		ChatSystemLib.Command('/w ' .. tMessage.strSender .. " I can't invite. Please try again.")
-	end
-
 
 	--Get Datachron Messages
 	if channelCurrent:GetName() == "Datachron" then
